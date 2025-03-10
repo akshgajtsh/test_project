@@ -17,21 +17,17 @@ class ContentSecurityPolicyMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
+
         $response = $next($request);
 
-        // CSP ヘッダーを設定
-        $cspHeader = "
-        default-src 'self'; 
-        script-src 'self' 'unsafe-inline' http://localhost:5173 http://[::1]:5173; 
-        style-src 'self' http://localhost:5173 https://fonts.bunny.net; 
-        style-src-elem 'self' http://localhost:5173; 
-        font-src 'self' data: https://fonts.bunny.net; 
-        connect-src 'self' ws://localhost:5173; 
-        img-src 'self' data:;
-    ";
-
-        // CSP ヘッダーを設定
-        $response->headers->set('Content-Security-Policy', preg_replace('/\s+/', ' ', $cspHeader));
+        if (config('app.env') === 'local') {
+            $nonce = base64_encode(random_bytes(16)); // 16バイトのランダムな nonce を生成
+            $csp = "default-src 'self'; "
+                . "style-src 'self' http://localhost:5175 'nonce-{$nonce}' https://fonts.bunny.net; "
+                . "font-src 'self' https://fonts.bunny.net data:;";
+            $response->headers->set('Content-Security-Policy', $csp);
+            $response->headers->set('X-Content-Security-Policy', $csp); // 一部のブラウザ用
+        }
 
         return $response;
     }
