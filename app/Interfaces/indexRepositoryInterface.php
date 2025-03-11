@@ -9,4 +9,6 @@ interface indexRepositoryInterface
     public function index();
 
     public function show($id);
+
+    public function edit($id);
 }

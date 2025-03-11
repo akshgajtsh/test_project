@@ -46,4 +46,11 @@ class indexService
 
         return view('contacts.show', compact('contact', 'gender', 'age'));
     }
+
+    public function edit($id)
+    {
+        $contact = $this->indexRepositoryInterface->edit($id);
+
+        return view('contacts.edit', compact('contact'));
+    }
 }

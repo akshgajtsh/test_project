@@ -16,4 +16,9 @@ class indexRepository implements indexRepositoryInterface
     {
         return ContactForm::find($id);
     }
+
+    public function edit($id)
+    {
+        return ContactForm::find($id);
+    }
 }
