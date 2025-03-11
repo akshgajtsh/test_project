@@ -2,10 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ContactForm;
 use Illuminate\Http\Request;
+use Mockery\Matcher\Contains;
+use App\Services\indexService;
 
 class ContactFormController extends Controller
 {
+    protected indexService $indexService;
+
+    public function __construct(indexService $indexService)
+    {
+        $this->indexService = $indexService;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +23,7 @@ class ContactFormController extends Controller
      */
     public function index()
     {
-        return view('contacts.index');
+        return $this->indexService->index();
     }
 
     /**
@@ -34,7 +44,15 @@ class ContactFormController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        ContactForm::create([
+            'name' => $request->name,
+            'title' => $request->title,
+            'email' => $request->email,
+            'url' => $request->url,
+            'gender' => $request->gender,
+            'age' => $request->age,
+            'contact' => $request->contact,
+        ]);
     }
 
     /**
@@ -45,7 +63,31 @@ class ContactFormController extends Controller
      */
     public function show($id)
     {
-        //
+        // $contact = ContactForm::find($id);
+
+        // if ($contact->gender === 0) {
+        //     $gender = '男性';
+        // } else {
+        //     $gender = '女性';
+        // };
+
+        // if ($contact->age === 1) {
+        //     $age = '~19歳';
+        // } elseif ($contact->age === 2) {
+        //     $age = '20~29歳';
+        // } elseif ($contact->age === 3) {
+        //     $age = '30~39歳';
+        // } elseif ($contact->age === 4) {
+        //     $age = '40~49歳';
+        // } elseif ($contact->age === 5) {
+        //     $age = '50~59歳';
+        // } elseif ($contact->age === 6) {
+        //     $age = '60歳~';
+        // }
+
+        // return view('contacts.show', compact('contact', 'gender', 'age'));
+
+        return $this->indexService->show($id);
     }
 
     /**
