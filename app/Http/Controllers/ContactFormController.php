@@ -6,6 +6,7 @@ use App\Models\ContactForm;
 use Illuminate\Http\Request;
 use Mockery\Matcher\Contains;
 use App\Services\indexService;
+use App\Http\Requests\StoreContactRequest;
 
 class ContactFormController extends Controller
 {
@@ -42,7 +43,7 @@ class ContactFormController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreContactRequest $request)
     {
         ContactForm::create([
             'name' => $request->name,
@@ -86,7 +87,7 @@ class ContactFormController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        return $this->indexService->update($id, $request);
     }
 
     /**
@@ -97,6 +98,6 @@ class ContactFormController extends Controller
      */
     public function destroy($id)
     {
-        //
+        return $this->indexService->destroy($id);
     }
 }

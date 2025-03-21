@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Interfaces\indexRepositoryInterface;
 use App\Models\ContactForm;
+use Illuminate\Http\Request;
 
 class indexService
 {
@@ -52,5 +53,28 @@ class indexService
         $contact = $this->indexRepositoryInterface->edit($id);
 
         return view('contacts.edit', compact('contact'));
+    }
+
+    public function update(int $id, Request $request)
+    {
+        $contact = $this->indexRepositoryInterface->findById($id);
+
+        $contact->name = $request->name;
+        $contact->title = $request->title;
+        $contact->email = $request->email;
+        $contact->url = $request->url;
+        $contact->gender = $request->gender;
+        $contact->age = $request->age;
+        $contact->contact = $request->contact;
+        $contact->save();
+
+        return redirect()->route('contacts.index');
+    }
+
+    public function destroy(int $id)
+    {
+        $contact = $this->indexRepositoryInterface->findById($id);
+        $contact->delete();
+        return redirect()->route('contacts.index');
     }
 }
