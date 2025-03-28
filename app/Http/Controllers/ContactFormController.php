@@ -22,9 +22,10 @@ class ContactFormController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return $this->indexService->index();
+        
+        return $this->indexService->index($request);
     }
 
     /**

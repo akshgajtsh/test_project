@@ -14,9 +14,12 @@ class indexRepository implements indexRepositoryInterface
         return ContactForm::find($id);
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        return ContactForm::select('id', 'name', 'title', 'created_at')->get();
+        // return ContactForm::select('id', 'name', 'title', 'created_at')->paginate(20);
+        $search = $request->search;
+        $query = ContactForm::search($search);
+        return $query->select('id', 'name', 'title', 'created_at')->paginate(20);
     }
 
     public function show($id)
@@ -34,7 +37,7 @@ class indexRepository implements indexRepositoryInterface
         return $contactForm->update($data);
     }
 
-    public function destroy(ContactForm $contact): bool 
+    public function destroy(ContactForm $contact): bool
     {
         return $contact->delete();
     }

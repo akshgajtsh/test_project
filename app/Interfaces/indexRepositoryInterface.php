@@ -3,12 +3,13 @@
 namespace App\Interfaces;
 
 use App\Models\ContactForm;
+use Illuminate\Http\Request;
 
 interface indexRepositoryInterface
 {
     public function findById(int $id): ContactForm;
 
-    public function index();
+    public function index(Request $request);
 
     public function show($id);
 

@@ -15,9 +15,9 @@ class indexService
         $this->indexRepositoryInterface = $indexRepositoryInterface;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $contacts = $this->indexRepositoryInterface->index();
+        $contacts = $this->indexRepositoryInterface->index($request);
         return view('contacts.index', compact('contacts'));
     }
 
